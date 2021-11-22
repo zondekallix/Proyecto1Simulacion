@@ -1,11 +1,15 @@
-import numpy as np
 import math
-
+import Utils
+import numpy as np
 from numpy.core.fromnumeric import mean
 
 def expRandomNumber(lambdavalue): #Return random X with exponential distribution 
     U = np.random.uniform(0,1)
     return int((-1/lambdavalue)*np.log(U))
+
+def unifRandomNumber(a,b): #Return X with uniform Distribution
+    U = np.random.uniform(0,1)
+    return int(a + (b - a)*U)
 
 def numberToTimeKujo(numberValue): #Turn minutes to Time value <Hour:Mins>.
     hour = int(numberValue/60)+10 #Hora a partir de 10am
@@ -29,9 +33,6 @@ def percentWaiting(waitList):
         if(value > 5):
             countBiger5 = countBiger5 + 1
     return countBiger5/n
-
-
-
 #lambdaVal = lambda para la variable aleatoria exponencial en horario normal
 #lmbdaValPico = lambda para la variable aleatoria exponencial en horario Pico
 def Server2KujoSimulation(lambdaValueNormal = 8,lambdaValuePico = 3):
@@ -68,7 +69,7 @@ def Server2KujoSimulation(lambdaValueNormal = 8,lambdaValuePico = 3):
     departure = {} #Tiempo de ida
     preparationTime = {} #Tiempo que demora hacer el sandwich o el sushi de un cliente
     #Inicializar
-    tA = expRandomNumber(lambdaVal)
+    tA = int(expRandomNumber(lambdaVal))
     SS = 0 #Estados
     #Horario Normal
     #SS = 0 <-> S1 = 0, S2 = 0, n = 0
@@ -216,7 +217,7 @@ if __name__ == '__main__':
     print(f"El porciento de espera de más de 5 minutos con 2 servidores para este caso es: {percentWaiting(finalWaitList)}%")
 
     listCases = []
-    for i in range(100):
+    for i in range(1000):
         Arrive,Departure,PreparationTime = Server2KujoSimulation(7,4)
         finalWaitList = waitedTime(Arrive,Departure,PreparationTime)
         listCases.append(percentWaiting(finalWaitList))

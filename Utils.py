@@ -1,6 +1,11 @@
+import numpy as np
 def expRandomNumber(lambdavalue): #Return random X with exponential distribution 
     U = np.random.uniform(0,1)
     return int((-1/lambdavalue)*np.log(U))
+
+def unifRandomNumber(a,b): #Return X with uniform Distribution
+    U = np.random.uniform(0,1)
+    return int(a + (b - a)*U)
 
 def numberToTimeKujo(numberValue): #Turn minutes to Time value <Hour:Mins>.
     hour = int(numberValue/60)+10 #Hora a partir de 10am
@@ -14,8 +19,6 @@ def numberToTimeKujo(numberValue): #Turn minutes to Time value <Hour:Mins>.
 def waitedTime(Arrive,Departure,Preparation):
     outputList = []
     for key in Departure.keys():
-        if key not in Preparation.keys():
-            Preparation[key] = 5
         outputList.append(abs((Departure[key]-Arrive[key])-Preparation[key]))
     return outputList
 
